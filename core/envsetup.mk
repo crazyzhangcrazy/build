@@ -48,9 +48,6 @@ endif
 ifneq (,$(findstring Macintosh,$(UNAME)))
   HOST_OS := darwin
 endif
-ifneq (,$(findstring CYGWIN,$(UNAME)))
-  HOST_OS := windows
-endif
 
 # BUILD_OS is the real host doing the build.
 BUILD_OS := $(HOST_OS)
@@ -109,11 +106,7 @@ endif
 HOST_PREBUILT_ARCH := x86
 # This is the standard way to name a directory containing prebuilt host
 # objects. E.g., prebuilt/$(HOST_PREBUILT_TAG)/cc
-ifeq ($(HOST_OS),windows)
-  HOST_PREBUILT_TAG := windows
-else
-  HOST_PREBUILT_TAG := $(HOST_OS)-$(HOST_PREBUILT_ARCH)
-endif
+HOST_PREBUILT_TAG := $(HOST_OS)-$(HOST_PREBUILT_ARCH)
 
 # TARGET_COPY_OUT_* are all relative to the staging directory, ie PRODUCT_OUT.
 # Define them here so they can be used in product config files.

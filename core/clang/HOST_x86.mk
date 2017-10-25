@@ -12,9 +12,6 @@ endif
 ifeq ($(HOST_OS),darwin)
 CLANG_CONFIG_x86_HOST_TRIPLE := i686-apple-darwin
 endif
-ifeq ($(HOST_OS),windows)
-CLANG_CONFIG_x86_HOST_TRIPLE := i686-pc-mingw32
-endif
 
 CLANG_CONFIG_x86_HOST_EXTRA_ASFLAGS := \
   $(CLANG_CONFIG_EXTRA_ASFLAGS) \

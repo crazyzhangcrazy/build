@@ -1414,10 +1414,6 @@ ifdef BUILD_HOST_static
 HOST_FPIE_FLAGS :=
 else
 HOST_FPIE_FLAGS := -pie
-# Force the correct entry point to workaround a bug in binutils that manifests with -pie
-ifeq ($(HOST_OS),windows)
-HOST_FPIE_FLAGS += -Wl,-e_mainCRTStartup
-endif
 endif
 
 ifneq ($(HOST_CUSTOM_LD_COMMAND),true)
@@ -1489,11 +1485,7 @@ $(hide) $(AAPT) package $(PRIVATE_AAPT_FLAGS) -m \
     $(addprefix --rename-instrumentation-target-package , $(PRIVATE_MANIFEST_INSTRUMENTATION_FOR))
 endef
 
-ifeq ($(HOST_OS),windows)
-xlint_unchecked :=
-else
 xlint_unchecked := -Xlint:unchecked
-endif
 
 ifeq (true, $(ENABLE_INCREMENTALJAVAC))
 incremental_dex := --incremental

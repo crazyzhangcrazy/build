@@ -430,12 +430,7 @@ ANDROID_MANIFEST_MERGER := java -classpath prebuilts/devtools/tools/lib/manifest
 
 YACC_HEADER_SUFFIX:= .hpp
 
-# Don't use column under Windows, cygwin or not
-ifeq ($(HOST_OS),windows)
-COLUMN:= cat
-else
 COLUMN:= column
-endif
 
 ifeq ($(HOST_OS),darwin)
 ifeq ($(LEGACY_USE_JAVA6),)

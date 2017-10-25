@@ -51,6 +51,3 @@ CLANG_CONFIG_x86_LINUX_HOST_EXTRA_LDFLAGS := \
 endif
 endif  # Linux
 
-ifeq ($(HOST_OS),windows)
-# nothing required here yet
-endif

@@ -1639,9 +1639,7 @@ ifeq ($(HOST_OS),darwin)
 else
   INTERNAL_SDK_HOST_OS_NAME := $(HOST_OS)
 endif
-ifneq ($(HOST_OS),windows)
-  INTERNAL_SDK_HOST_OS_NAME := $(INTERNAL_SDK_HOST_OS_NAME)-$(SDK_HOST_ARCH)
-endif
+INTERNAL_SDK_HOST_OS_NAME := $(INTERNAL_SDK_HOST_OS_NAME)-$(SDK_HOST_ARCH)
 sdk_name := $(sdk_name)_$(INTERNAL_SDK_HOST_OS_NAME)
 
 sdk_dep_file := $(sdk_dir)/sdk_deps.mk
