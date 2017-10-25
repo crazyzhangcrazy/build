@@ -174,9 +174,6 @@ function setpaths()
     # If prebuilts/android-emulator/<system>/ exists, prepend it to our PATH
     # to ensure that the corresponding 'emulator' binaries are used.
     case $(uname -s) in
-        Darwin)
-            ANDROID_EMULATOR_PREBUILTS=$T/prebuilts/android-emulator/darwin-x86_64
-            ;;
         Linux)
             ANDROID_EMULATOR_PREBUILTS=$T/prebuilts/android-emulator/linux-x86_64
             ;;
@@ -1300,21 +1297,10 @@ function gdbclient_old()
 
 }
 
-case `uname -s` in
-    Darwin)
-        function sgrep()
-        {
-            find -E . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.(c|h|cc|cpp|S|java|xml|sh|mk|aidl)' -print0 | xargs -0 grep --color -n "$@"
-        }
-
-        ;;
-    *)
-        function sgrep()
-        {
-            find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|S\|java\|xml\|sh\|mk\|aidl\)' -print0 | xargs -0 grep --color -n "$@"
-        }
-        ;;
-esac
+function sgrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o  -type f -iregex '.*\.\(c\|h\|cc\|cpp\|S\|java\|xml\|sh\|mk\|aidl\)' -print0 | xargs -0 grep --color -n "$@"
+}
 
 function gettargetarch
 {
@@ -1351,32 +1337,15 @@ function sepgrep()
     find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -name sepolicy -type d -print0 | xargs -0 grep --color -n -r --exclude-dir=\.git "$@"
 }
 
-case `uname -s` in
-    Darwin)
-        function mgrep()
-        {
-            find -E . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -type f -iregex '.*/(Makefile|Makefile\..*|.*\.make|.*\.mak|.*\.mk)' -print0 | xargs -0 grep --color -n "$@"
-        }
+function mgrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -regextype posix-egrep -iregex '(.*\/Makefile|.*\/Makefile\..*|.*\.make|.*\.mak|.*\.mk)' -type f -print0 | xargs -0 grep --color -n "$@"
+}
 
-        function treegrep()
-        {
-            find -E . -name .repo -prune -o -name .git -prune -o -type f -iregex '.*\.(c|h|cpp|S|java|xml)' -print0 | xargs -0 grep --color -n -i "$@"
-        }
-
-        ;;
-    *)
-        function mgrep()
-        {
-            find . -name .repo -prune -o -name .git -prune -o -path ./out -prune -o -regextype posix-egrep -iregex '(.*\/Makefile|.*\/Makefile\..*|.*\.make|.*\.mak|.*\.mk)' -type f -print0 | xargs -0 grep --color -n "$@"
-        }
-
-        function treegrep()
-        {
-            find . -name .repo -prune -o -name .git -prune -o -regextype posix-egrep -iregex '.*\.(c|h|cpp|S|java|xml)' -type f -print0 | xargs -0 grep --color -n -i "$@"
-        }
-
-        ;;
-esac
+function treegrep()
+{
+    find . -name .repo -prune -o -name .git -prune -o -regextype posix-egrep -iregex '.*\.(c|h|cpp|S|java|xml)' -type f -print0 | xargs -0 grep --color -n -i "$@"
+}
 
 function getprebuilt
 {
@@ -1649,23 +1618,9 @@ function set_java_home() {
 
     if [ ! "$JAVA_HOME" ]; then
       if [ -n "$LEGACY_USE_JAVA6" ]; then
-        case `uname -s` in
-            Darwin)
-                export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
-                ;;
-            *)
-                export JAVA_HOME=/usr/lib/jvm/java-6-sun
-                ;;
-        esac
+        export JAVA_HOME=/usr/lib/jvm/java-6-sun
       else
-        case `uname -s` in
-            Darwin)
-                export JAVA_HOME=$(/usr/libexec/java_home -v 1.7)
-                ;;
-            *)
-                export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
-                ;;
-        esac
+        export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64
       fi
 
       # Keep track of the fact that we set JAVA_HOME ourselves, so that

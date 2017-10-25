@@ -432,17 +432,7 @@ YACC_HEADER_SUFFIX:= .hpp
 
 COLUMN:= column
 
-ifeq ($(HOST_OS),darwin)
-ifeq ($(LEGACY_USE_JAVA6),)
 HOST_JDK_TOOLS_JAR:= $(shell $(BUILD_SYSTEM)/find-jdk-tools-jar.sh)
-else
-# Deliberately set to blank for Java 6 installations on MacOS. These
-# versions allegedly use a non-standard directory structure.
-HOST_JDK_TOOLS_JAR :=
-endif
-else
-HOST_JDK_TOOLS_JAR:= $(shell $(BUILD_SYSTEM)/find-jdk-tools-jar.sh)
-endif
 
 ifneq ($(HOST_JDK_TOOLS_JAR),)
 ifeq ($(wildcard $(HOST_JDK_TOOLS_JAR)),)
@@ -456,12 +446,7 @@ ifneq ($(filter 64-Bit, $(shell java -version 2>&1)),)
 HOST_JDK_IS_64BIT_VERSION := true
 endif
 
-# It's called md5 on Mac OS and md5sum on Linux
-ifeq ($(HOST_OS),darwin)
-MD5SUM:=md5 -q
-else
 MD5SUM:=md5sum
-endif
 
 APICHECK_CLASSPATH := $(HOST_JDK_TOOLS_JAR)
 APICHECK_CLASSPATH := $(APICHECK_CLASSPATH):$(HOST_OUT_JAVA_LIBRARIES)/doclava$(COMMON_JAVA_PACKAGE_SUFFIX)

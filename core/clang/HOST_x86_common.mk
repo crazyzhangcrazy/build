@@ -1,9 +1,5 @@
 # Shared by HOST_x86.mk and HOST_x86_64.mk.
 
-ifeq ($(HOST_OS),darwin)
-# nothing required here yet
-endif
-
 ifeq ($(HOST_OS),linux)
 CLANG_CONFIG_x86_LINUX_HOST_EXTRA_ASFLAGS := \
   --gcc-toolchain=$($(clang_2nd_arch_prefix)HOST_TOOLCHAIN_FOR_CLANG) \
